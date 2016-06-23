@@ -1,4 +1,0 @@
-# robotstxt.org/
-
-User-agent: *
-Crawl-delay: 8
