@@ -28,20 +28,19 @@ function serve(app, res, req){
 	twitterRest();
 
 	var url = 'https://gateway-a.watsonplatform.net/calls/url/URLGetCombinedData?url=http://www.cnbc.com/2016/05/16/buffetts-berkshire-hathaway-takes-new-stake-in-apple.html&outputMode=json&extract=keywords,entities,concepts&sentiment=1&maxRetrieve=3&apikey=e1fd7bc4f36090d76a3efb0b0328081e29ab1ec7';
-	var data = 'no';
 
 	app.get('/twitter', function(req, res) {
 		request(url, function(err,response, body){
 			if(!err && response.statusCode == 200){
 				// res.send(JSON.stringify(body));
 				console.log(JSON.stringify(body, null, 2));
-				data = body;
+				res.send(body);
 			}
 			else{
 				console.log('An error occured');
 			}		
 		});
-		res.send(data);
+		// res.send(data);
 		//res.sendfile('./public/index.html');
 	});
 }
