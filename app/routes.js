@@ -5,12 +5,7 @@ var request = require('request');
 // authentication routes
 
 // frontend routes =========================================================
-// route to handle all angular requests
-function requestURL(req, res, next){
-	var baseURL = 'https://api.twitter.com/1.1/search/tweets.json';
-	var username = '%23freebandnames';
-	var search = baseURL+'q='+username;
-}
+// route to handle all angular requests}
 
 function twitterRest(){
 	var twitter = require('twitter');
@@ -20,26 +15,33 @@ function twitterRest(){
 		access_token_key: '3660084016-9AAEBVAyxGwoKpqZqG75WYPIXyso3PJngqw6SoR',
 		access_token_secret: 'Vf75NCcOV72AyVvJ84QVSCWPSZvQp2SiJbW0GLJt9DPGv'
 	});
-	requestURL();
+	return twitterKeys;
 }
 
 
 function serve(app, res, req){
-	twitterRest();
-
-	var url = 'https://gateway-a.watsonplatform.net/calls/url/URLGetCombinedData?url=http://www.cnbc.com/2016/05/16/buffetts-berkshire-hathaway-takes-new-stake-in-apple.html&outputMode=json&extract=keywords,entities,concepts&sentiment=1&maxRetrieve=3&apikey=e1fd7bc4f36090d76a3efb0b0328081e29ab1ec7';
+	
+	var url = 'search/tweets';
+	var params = {
+		q: 'priceline'
+	}
+	var twitter = twitterRest();
 
 	app.get('/twitter', function(req, res) {
-		request(url, function(err,response, body){
+		 
+		twitter.get(url, params, function(error, tweets, response){
+			res.send(tweets);	
+		});
+		/*request(url, function(err,response, body){
 			if(!err && response.statusCode == 200){
-				// res.send(JSON.stringify(body));
-				console.log(JSON.stringify(body, null, 2));
-				res.send(body);
+				//console.log(JSON.stringify(body, null, 2));
+				//res.send(body);
 			}
 			else{
-				console.log('An error occured');
+				console.log('Response: ', response.statusCode);
+				console.log('An error occured: ', err);
 			}		
-		});
+		});*/
 		// res.send(data);
 		//res.sendfile('./public/index.html');
 	});
