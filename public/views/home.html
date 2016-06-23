@@ -1,5 +1,23 @@
 <div class="jumbotron text-center">
 	<h1>Home Page 4 Life</h1>
 
-	<p>{{ tagline }}</p>
+</div>
+
+<div class="jumbotron">
+	<div class="container" ng-repeat="data in tempData" style="margin-bottom: 20px;" ng-class="{'twitter-card-large': data === currentFocus}">
+		<!-- Small -->
+
+			<button class="button--secondary twitter-card-small" ng-click="switchFocus(data)" ng-class="{'twitter-card-side': data === currentFocus}">{{data}}</button>
+
+			<!-- Large -->
+			<div ng-show="data === currentFocus" style="float:left">
+			  <div class="panel-heading">
+			    <h3 class="panel-title">Panel title</h3>
+			  </div>
+			  <div class="panel-body">
+			    Panel content
+			  </div>
+			</div>
+
+	</div>
 </div>
