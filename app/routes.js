@@ -1,5 +1,3 @@
-var request = require('request');
-
 // server routes ===========================================================
 // handle things like api calls
 // authentication routes
@@ -32,18 +30,6 @@ function serve(app, res, req){
 		twitter.get(url, params, function(error, tweets, response){
 			res.send(tweets);	
 		});
-		/*request(url, function(err,response, body){
-			if(!err && response.statusCode == 200){
-				//console.log(JSON.stringify(body, null, 2));
-				//res.send(body);
-			}
-			else{
-				console.log('Response: ', response.statusCode);
-				console.log('An error occured: ', err);
-			}		
-		});*/
-		// res.send(data);
-		//res.sendfile('./public/index.html');
 	});
 }
 
