@@ -1,2 +1,1 @@
-# sentiment-analysis
-Web app to gather twitter data on Priceline sentiment  
+Web app to gather twitter data on Priceline sentiment
