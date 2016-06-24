@@ -1,17 +1,17 @@
 <div class="jumbotron" id="plcn-head">
-	<h3 class="company-filter">Filter by company:</h3>
+	<div class="company-filter">Filter by company:</div>
 	<ul class="company-btns">
 		<li>
-			<img src="../images/priceline-inactive.png" />
+			<div ng-click="toggleImage()" ng-class="{'activePcln-btn': active == true}" class="pcln-btn"></div>
 		</li>
 		<li>
-			<img src="../images/expedia-inactive.png" />
+			<div ng-click="toggleExpImage()" ng-class="{'activeExpedia-btn': expActive == true}" class="expedia-btn"></div>
 		</li>
 		<li>
-			<img src="../images/hipmunk-inactive.png" />
+			<div ng-click="toggleHipImage()" ng-class="{'activeHipmunk-btn': hipActive == true}" class="hipmunk-btn"></div>
 		</li>
 		<li>
-			<img src="../images/orbitz--inactive.png" />
+			<div ng-click="toggleOrbImage()" ng-class="{'activeOrbitz-btn': orbActive == true}" class="orbitz-btn"></div>
 		</li>
 	</ul>
 </div>

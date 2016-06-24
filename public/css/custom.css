@@ -19,6 +19,7 @@
 
 .navbar-brand {
 	color: white !important;
+	font-size: 2em;
 }
 
 .navbar-nav>li>a {
@@ -36,7 +37,60 @@
 .company-btns li {
 	display: inline-block;
 	padding-right: 5px;
+	cursor: pointer;
 }
+
+.pcln-btn {
+	height: 63px;
+	width: 125px;
+	background-image: url("../images/priceline-inactive.png");
+}
+
+.activePcln-btn {
+	height: 63px;
+	width: 125px;
+	background-image: url("../images/priceline-active.png");
+}
+
+.expedia-btn {
+	height: 63px;
+	width: 125px;
+	background-image: url("../images/expedia-inactive.png");
+}
+
+.activeExpedia-btn {
+	height: 63px;
+	width: 125px;
+	background-image: url("../images/expedia-active.png") !important;
+}
+
+.hipmunk-btn {
+	height: 63px;
+	width: 125px;
+	background-image: url("../images/hipmunk-inactive.png");
+}
+
+.activeHipmunk-btn {
+	height: 63px;
+	width: 125px;
+	background-image: url("../images/hipmunk-active.png") !important;
+}
+
+.orbitz-btn {
+	height: 63px;
+	width: 125px;
+	background-image: url("../images/orbitz--inactive.png");
+}
+
+.activeOrbitz-btn {
+	height: 63px;
+	width: 125px;
+	background-image: url("../images/orbitz-active.png") !important;
+}
+
+/*#plcn-btn:active {
+	background-image: url("../images/priceline-active.png")
+}*/
 
 .twitter-card-small{
 	display:block;

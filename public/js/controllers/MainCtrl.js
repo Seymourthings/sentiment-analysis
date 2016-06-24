@@ -3,6 +3,34 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
 	$scope.tweetData = [];
 	$scope.currentFocus = "";
 
+	$scope.toggleImage = function(){
+		$scope.active = true;
+		$scope.expActive = false;
+		$scope.hipActive = false;
+		$scope.orbActive = false;
+	}
+
+	$scope.toggleExpImage = function(){
+		$scope.expActive = true;
+		$scope.active = false;
+		$scope.hipActive = false;
+		$scope.orbActive = false;
+	}
+
+	$scope.toggleHipImage = function(){
+		$scope.hipActive = true;
+		$scope.expActive = false;
+		$scope.active = false;
+		$scope.orbActive = false;
+	}
+
+	$scope.toggleOrbImage = function(){
+		$scope.orbActive = true;
+		$scope.expActive = false;
+		$scope.active = false;
+		$scope.hipActive = false;
+	}
+
 	$scope.switchFocus = function(newFocus){
 		$scope.currentFocus = newFocus;
 	}
@@ -22,5 +50,6 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
 	}
 
 	getResults();
+
 
 });
