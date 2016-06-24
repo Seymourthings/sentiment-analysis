@@ -5,6 +5,15 @@
 // frontend routes =========================================================
 // route to handle all angular requests}
 
+var priceline = '@priceline';
+var expedia = '@expedia';
+var orbitz = '@orbitz';
+var hipmunk = '@thehipmunk';
+var tripAdvisor = '@TripAdvisor';
+
+var twitter = twitterRest();
+var url = 'search/tweets';
+
 function twitterRest(){
 	var twitter = require('twitter');
 	var twitterKeys = new twitter({
@@ -54,23 +63,23 @@ function alchemyProcess(statuses){
 	});
 }
 
-function serve(app, res, req){
-	
-	var url = 'search/tweets';
+function getTweetsFrom(res, company, countWanted){
 	var params = {
-		q: 'priceline',
-		count: 2
+		q: company,
+		count: countWanted
 	}
-	var twitter = twitterRest();
-
-	app.get('/twitter', function(req, res) {
-		 
-		twitter.get(url, params, function(error, tweets, response){
-			alchemyProcess(tweets.statuses).then(function(data){
-				// console.log('YAAAAY');
-				res.send(data);		
-			});
+	twitter.get(url, params, function(error, tweets, response){
+		alchemyProcess(tweets.statuses).then(function(data){
+			res.send(data);		
 		});
+	});
+	
+}
+
+function serve(app, res, req){
+
+	app.get('*', function(req, res) {
+		 getTweetsFrom(res,priceline, 1);
 	});
 }
 
