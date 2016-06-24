@@ -50,24 +50,6 @@ app.get('/test-api', function(req,res) {
 
 });
 
-// app.get('/test-api', function(req,res) {
-// 	// var query = {
-// 	// 	term: req.query.term
-// 	// };
-// 	request(
-// 		{
-// 			url: 'https://gateway-a.watsonplatform.net/calls/url/URLGetCombinedData?url=http://www.cnbc.com/2016/05/16/buffetts-berkshire-hathaway-takes-new-stake-in-apple.html&outputMode=json&extract=keywords,entities,concepts&sentiment=1&maxRetrieve=3&apikey=e1fd7bc4f36090d76a3efb0b0328081e29ab1ec7'
-// 		},
-// 		function(err, response, body) {
-// 			if(!err && response.statusCode === 200) {
-// 				res.send(body);
-// 				console.log(JSON.stringify(body, null, 2));
-// 			} else {
-// 				res.render('error');
-// 			}
-// 		});
-// });
-
 app.listen(port);
 console.log('Magic happens on port ' + port); 			// shoutout to the user
 exports = module.exports = app; 						// expose app
