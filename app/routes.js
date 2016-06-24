@@ -36,9 +36,13 @@ function alchemyProcess(statuses){
 	var promises = [];
 	for(i in statuses){
 		var params = {text:statuses[i].text};
-		
+
 		var temp = new Promise(function(resolve, reject){
 			alchemy.emotions("TEXT", params, function(err, response){
+				if(err){
+					console.log('fail');
+					reject();
+				}
 				// See http://www.alchemyapi.com/api/html-api-1 for format of returned object
 			  	var emotions = response.docEmotions;
 
@@ -55,21 +59,36 @@ function alchemyProcess(statuses){
 	return Promise.all(promises);
 }
 
+function getScore(searchText, res){
+	var alchemy = alchemyRest();
+
+	var params = {text: searchText};
+
+	alchemy.emotions("TEXT", params, function(err, response){
+		var emotions = repsonse.docEmotions;
+		res.send(emotions.anger);
+	});
+}
+
 function getTweetsFrom(res, company, countWanted){
 	var params = {
 		q: company
 	}
 	twitter.get(url, params, function(error, tweets, response){
-		alchemyProcess(tweets.statuses).then(function(data){
-			res.send(data);		
-		});
+		// alchemyProcess(tweets.statuses).then(function(data){
+		// 	res.send(data);		
+		// });
 		// alchemyProcess(tweets.statuses);
-		// res.send(tweets.statuses);
+		res.send(tweets.statuses);
 	});
-	
 }
 
 function serve(app, res, req){
+
+	app.get('/alchemy', function(req, res){
+		console.log(req);
+		getScore(req.query.text, res);
+	});
 
 	app.get('/twitter', function(req, res) {
 		 getTweetsFrom(res,priceline, 5);
