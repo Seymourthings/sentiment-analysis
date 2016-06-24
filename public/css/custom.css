@@ -1,3 +1,97 @@
+// header
+
+.navbar {
+	width: 100% !important;
+	height: 50px !important;
+	background-color: #0a84c1 !important;
+	box-shadow: 0 1px 5px 0 rgba(0,0,0,0.2) !important;
+	border: none;
+}
+
+.navbar-inverse {
+	width: 100% !important;
+	height: 50px !important;
+	background-color: #0a84c1 !important;
+	box-shadow: 0 1px 5px 0 rgba(0,0,0,0.2) !important;
+	color: white !important;
+	border-color: transparent !important;
+}
+
+.navbar-brand {
+	color: white !important;
+	font-size: 2em;
+}
+
+.navbar-nav>li>a {
+	color: white !important;
+}
+
+#plcn-head {
+	padding: 20px;
+}
+
+.company-filter {
+	padding-bottom: 15px;
+}
+
+.company-btns li {
+	display: inline-block;
+	padding-right: 5px;
+	cursor: pointer;
+}
+
+.pcln-btn {
+	height: 63px;
+	width: 125px;
+	background-image: url("../images/priceline-inactive.png");
+}
+
+.activePcln-btn {
+	height: 63px;
+	width: 125px;
+	background-image: url("../images/priceline-active.png");
+}
+
+.expedia-btn {
+	height: 63px;
+	width: 125px;
+	background-image: url("../images/expedia-inactive.png");
+}
+
+.activeExpedia-btn {
+	height: 63px;
+	width: 125px;
+	background-image: url("../images/expedia-active.png") !important;
+}
+
+.hipmunk-btn {
+	height: 63px;
+	width: 125px;
+	background-image: url("../images/hipmunk-inactive.png");
+}
+
+.activeHipmunk-btn {
+	height: 63px;
+	width: 125px;
+	background-image: url("../images/hipmunk-active.png") !important;
+}
+
+.orbitz-btn {
+	height: 63px;
+	width: 125px;
+	background-image: url("../images/orbitz--inactive.png");
+}
+
+.activeOrbitz-btn {
+	height: 63px;
+	width: 125px;
+	background-image: url("../images/orbitz-active.png") !important;
+}
+
+/*#plcn-btn:active {
+	background-image: url("../images/priceline-active.png")
+}*/
+
 .twitter-card-small{
 	display:block;
 	margin: 0 auto;
@@ -38,7 +132,7 @@
 }
 
 .twitter-text{
-	padding-top: 45px;
+		padding-top: 45px;
     padding-right: 20px;
     font-family: HelveticaNeue;
     font-size: 10px;
