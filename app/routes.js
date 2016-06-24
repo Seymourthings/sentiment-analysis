@@ -5,6 +5,15 @@
 // frontend routes =========================================================
 // route to handle all angular requests}
 
+var priceline = '@priceline';
+var expedia = '@expedia';
+var orbitz = '@orbitz';
+var hipmunk = '@thehipmunk';
+var tripAdvisor = '@TripAdvisor';
+
+var twitter = twitterRest();
+var url = 'search/tweets';
+
 function twitterRest(){
 	var twitter = require('twitter');
 	var twitterKeys = new twitter({
@@ -24,53 +33,65 @@ function alchemyRest(){
 function alchemyProcess(statuses){
 	var alchemy = alchemyRest();
 
-	return new Promise(function(resolve, reject) {
-	  // do a thing, possibly async, then…
-		var processed = [];
+	var promises = [];
+	for(i in statuses){
+		var params = {text:statuses[i].text};
 
-	  	for(status in statuses){
-			var params = {text: status.text};
-
-			alchemy.emotions("TEXT", params, function(err, response) {
-			  if (err) throw err;
-
-			  // See http://www.alchemyapi.com/api/html-api-1 for format of returned object
-			  var emotions = response.docEmotions;
-
-			  // Do something with data
-			  // console.log(emotions);
-			  var augmentStatus = statuses[status];
-			  augmentStatus['anger'] = emotions.anger;
-			  processed.push(augmentStatus);
-
-			  // console.log("current = " + processed.length + " = " + statuses.length);
-
-				if (processed.length === statuses.length) {
-					// console.log("success");
-					resolve(processed);
+		var temp = new Promise(function(resolve, reject){
+			alchemy.emotions("TEXT", params, function(err, response){
+				if(err){
+					console.log('fail');
+					reject();
 				}
-			});
-		}
+				// See http://www.alchemyapi.com/api/html-api-1 for format of returned object
+			  	var emotions = response.docEmotions;
+
+		
+			  	var augmentStatus = statuses[i];
+			  	augmentStatus['anger'] = emotions.anger;
+			  	resolve(augmentStatus);
+			})
+		});
+
+		promises.push(temp);
+	}
+
+	return Promise.all(promises);
+}
+
+function getScore(searchText, res){
+	var alchemy = alchemyRest();
+
+	var params = {text: searchText};
+
+	alchemy.emotions("TEXT", params, function(err, response){
+		var emotions = repsonse.docEmotions;
+		res.send(emotions.anger);
+	});
+}
+
+function getTweetsFrom(res, company, countWanted){
+	var params = {
+		q: company
+	}
+	twitter.get(url, params, function(error, tweets, response){
+		// alchemyProcess(tweets.statuses).then(function(data){
+		// 	res.send(data);		
+		// });
+		// alchemyProcess(tweets.statuses);
+		res.send(tweets.statuses);
 	});
 }
 
 function serve(app, res, req){
-	
-	var url = 'search/tweets';
-	var params = {
-		q: 'priceline',
-		count: 2
-	}
-	var twitter = twitterRest();
+
+	app.get('/alchemy', function(req, res){
+		console.log(req);
+		getScore(req.query.text, res);
+	});
 
 	app.get('/twitter', function(req, res) {
-		 
-		twitter.get(url, params, function(error, tweets, response){
-			alchemyProcess(tweets.statuses).then(function(data){
-				// console.log('YAAAAY');
-				res.send(data);		
-			});
-		});
+		 getTweetsFrom(res,priceline, 5);
 	});
 }
 

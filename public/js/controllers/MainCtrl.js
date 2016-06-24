@@ -36,7 +36,7 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
 	}
 
 	function getResults(){
-		var request = $http({
+		$http({
            	method: "get",
            	url: "./twitter",
            	params: {
@@ -44,8 +44,28 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
            	}
        	}).success(function(tweets){
 			$scope.tweetData = tweets;
+
 			$scope.currentFocus = $scope.tweetData[0];
 			console.log($scope.tweetData);
+
+				for(i in $scope.tweetData){
+					console.log('derp');
+					$scope.tweetData[i]['anger'] = getScore($scope.tweetData[i]);
+				}
+       	});
+	}
+
+	function getScore(data){
+		$http({
+           	method: "get",
+           	url: "./alchemy",
+           	params: {
+               	action: "get",
+               	text: data.text
+           	}
+       	}).success(function(score){
+       		console.log(score);
+			return score;
        	});
 	}
 
