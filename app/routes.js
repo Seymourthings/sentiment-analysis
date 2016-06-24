@@ -94,7 +94,7 @@ function serve(app, res, req){
 	});
 
 	app.get('/twitter', function(req, res) {
-		 getTweetsFrom(res,priceline,1);
+		 getTweetsFrom(res,expedia,1);
 	});
 }
 
