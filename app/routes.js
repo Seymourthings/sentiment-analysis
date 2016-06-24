@@ -5,6 +5,16 @@
 // frontend routes =========================================================
 // route to handle all angular requests}
 
+var priceline = '@priceline';
+var expedia = '@expedia';
+var orbitz = '@orbitz';
+var hipmunk = '@thehipmunk';
+var tripAdvisor = '@TripAdvisor';
+
+var url = 'search/tweets';
+
+var twitter = twitterRest();
+
 function twitterRest(){
 	var twitter = require('twitter');
 	var twitterKeys = new twitter({
@@ -21,16 +31,15 @@ function alchemyRest(){
 	return alchemy = new AlchemyAPI('e1fd7bc4f36090d76a3efb0b0328081e29ab1ec7');
 }
 
-function alchemyProcess(statuses){
+function alchemyProcess(tweetObject){
 	var alchemy = alchemyRest();
 
 	return new Promise(function(resolve, reject) {
 	  // do a thing, possibly async, then…
 		var processed = [];
 
-	  	for(status in statuses){
+		for(status in tweetObject){
 			var params = {text: status.text};
-
 			alchemy.emotions("TEXT", params, function(err, response) {
 			  if (err) throw err;
 
@@ -39,39 +48,48 @@ function alchemyProcess(statuses){
 
 			  // Do something with data
 			  // console.log(emotions);
-			  var augmentStatus = statuses[status];
-			  augmentStatus['anger'] = emotions.anger;
-			  processed.push(augmentStatus);
-
+				var augmentStatus = tweetObject[status];
+				augmentStatus['anger'] = emotions.anger;
+				processed.push(augmentStatus);	
 			  // console.log("current = " + processed.length + " = " + statuses.length);
 
-				if (processed.length === statuses.length) {
-					// console.log("success");
+				if (processed.length === tweetObject.length) {
+					console.log(tweetObject);
 					resolve(processed);
 				}
 			});
+
 		}
+
 	});
 }
 
-function serve(app, res, req){
-	
-	var url = 'search/tweets';
+function getTweetsFrom(company, countWanted){
 	var params = {
-		q: 'priceline',
-		count: 2
+		q: company,
+		count: countWanted
 	}
-	var twitter = twitterRest();
+	var tweetObject;
+	twitter.get(url, params, function(error, tweets, response){
+		toAlchemy(tweets.statuses);
+	});
+	
+}
 
-	app.get('/twitter', function(req, res) {
-		 
-		twitter.get(url, params, function(error, tweets, response){
-			alchemyProcess(tweets.statuses).then(function(data){
-				// console.log('YAAAAY');
-				res.send(data);		
-			});
-		});
+function toAlchemy(tweetObject){
+	alchemyProcess(tweetObject).then(function(data){
+		res.send(data);		
 	});
 }
 
-module.exports = serve;
+function serveTweets(app,url){
+	app.get('*', function(req, res){
+		getTweetsFrom(priceline, 1);
+		getTweetsFrom(expedia, 1);
+		getTweetsFrom(hipmunk, 1);
+		getTweetsFrom(tripAdvisor, 1);
+		res.sendfile('./public/index.html');
+	});
+}
+
+module.exports = serveTweets;
