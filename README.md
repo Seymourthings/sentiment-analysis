@@ -1,20 +1,18 @@
-# MEAN Stack Single Page Application Starter
+# The Negotiator
+## Members
+* [Austin Liu](https://github.com/aliu139)
+* [Desean Abraham](https://github.com/Seymourthings)
+* [Justin McKissick](https://dribbble.com/justmckissick)
+* [Agustin Bautista](https://github.com/abautist)
 
-This is a repo for a starter appliation for a Single Page MEAN Stack application. Just download and install and you have a good foundation for building application. 
+## Philosophy
+Our commitment has always been to the customer. From Name Your Own Price to Express Deals, Priceline has always been focused on being there when people need us the most. However, with the advent of social media, we've found a way to understand what our customers really want and when they want it. In less than 150 characters, customers are providing us the most valuable resource they can give us, their emotions, and we seek to take that plethora of data and raw emotion and transform it into a next-level customer experience.
 
-## Installation
-1. Download the repository
-2. Install npm modules: `npm install`
-3. Install bower dependencies `bower install`
-4. Start up the server: `node server.js`
-5. View in browser at http://localhost:8080
+Our web application provides a stream of negative emotions and gives our Customer Care team the chance to finally calm the storm. From the inside of the application, our team can see the issue and respond immediately, stopping the problem when the customer is at their lowest. In fact, we give our Customer Cares team the option to not just address our own issues but also those of our competitors! We're committed to getting you what you need when you need it!
 
-Use this starter kit to build any MEAN stack application you like.
+## How We Did It
+We created a web application using AngularJS, NodeJS, and Twitter Bootstrap. Using Twitter's API, we pull in a stream of tweets targetted towards Priceline (or our nearest competitors). Then, we pass all of this data through the Alchemy API, filtering for customers currently unimpressed with the level of service they have been presented with. A bit of routing and Javascript magic allows us to display this in a user-friendly experience and respond in a simple but efficient manner.
 
-If you have any questions or requests, email us at [chris@scotch.io](mailto:chris@scotch.io) and we'll keep updating this to make it perfect.
-
-## Future Additions
-- CRUD examples
-- Development and Production Environments
-- Link examples
-- Single Page AngularJS Animations
+## Acknowledgements and Inspiration
+* Todd Provino, SVP Customer Care
+* William Shatner
