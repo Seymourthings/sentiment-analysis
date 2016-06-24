@@ -5,10 +5,11 @@
 
 .twitter-card-side{
 	float:left;
+	margin-top: 40px;
 }
 
 .twitter-card-large{
-	background-color: white !important;
+	
 }
 
 .card {
