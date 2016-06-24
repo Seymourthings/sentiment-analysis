@@ -40,14 +40,14 @@ function alchemyProcess(statuses){
 			  // Do something with data
 			  console.log(emotions);
 			  processed.push(status);
-			});
-		}
 
-		if (processed.length > 0) {
-		  resolve(processed);
-		}
-		else {
-		  reject(Error("It broke"));
+			  console.log("current = " + processed.length + " = " + statuses.length);
+
+				if (processed.length === statuses.length) {
+					console.log("success");
+					resolve(processed);
+				}
+			});
 		}
 	});
 }
