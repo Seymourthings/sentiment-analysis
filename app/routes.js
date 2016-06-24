@@ -78,7 +78,7 @@ function getTweetsFrom(res, company, countWanted){
 
 function serve(app, res, req){
 
-	app.get('*', function(req, res) {
+	app.get('/twitter', function(req, res) {
 		 getTweetsFrom(res,priceline, 1);
 	});
 }
