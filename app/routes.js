@@ -59,7 +59,7 @@ function serve(app, res, req){
 	var url = 'search/tweets';
 	var params = {
 		q: 'priceline',
-		count: 10
+		count: 2
 	}
 	var twitter = twitterRest();
 

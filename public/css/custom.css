@@ -10,3 +10,37 @@
 .twitter-card-large{
 	background-color: white !important;
 }
+
+.card {
+	width: 340px;
+	height: 120px;
+	border-radius: 5px;
+	border: solid 2px #eaeaea;
+}
+
+.username {
+	width: 110px;
+	height: 17px;
+	font-family: HelveticaNeue-Medium;
+	font-size: 14px;
+	color: #333333;
+	float:left;
+}
+
+.handle {
+	width: 82px;
+	height: 14px;
+	font-family: HelveticaNeue;
+	font-size: 12px;
+	color: #666666;
+	float:left;
+}
+
+.twitter-text{
+	width: 229px;
+	height: 42px;
+	font-family: HelveticaNeue;
+	font-size: 10px;
+	line-height: 1.4;
+	color: #333333;
+}

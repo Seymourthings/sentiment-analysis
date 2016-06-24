@@ -3,10 +3,17 @@
 </div>
 
 <div class="jumbotron">
-	<div class="container" ng-repeat="data in tempData" style="margin-bottom: 20px;" ng-class="{'twitter-card-large': data === currentFocus}">
+	<div class="container" ng-repeat="data in tweetData" style="margin-bottom: 20px;" ng-class="{'twitter-card-large': data === currentFocus}">
 		<!-- Small -->
 
-			<button class="button--secondary twitter-card-small" ng-click="switchFocus(data)" ng-class="{'twitter-card-side': data === currentFocus}">{{data}}</button>
+			<div class="twitter-card-small card" ng-click="switchFocus(data)" ng-class="{'twitter-card-side': data === currentFocus}"> 
+				<h2 class="username"> {{data.user.name}}</h2>
+				<h2 class="handle"> @{{data.user.screen_name}} </h2>
+
+				<h2 class="twitter-text"> {{data.text}} </h2>
+			</div>
+
+			<!-- <button class="button--secondary twitter-card-small" ng-click="switchFocus(data)" ng-class="{'twitter-card-side': data === currentFocus}">{{data}}</button> -->
 
 			<!-- Large -->
 			<div ng-show="data === currentFocus" style="float:left">

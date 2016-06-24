@@ -1,7 +1,7 @@
 angular.module('MainCtrl', []).controller('MainController', function($scope, $http) {
 
-	$scope.tempData = ["asdf", "temp", "data", "derp", "qwer", "desea"];
-	$scope.currentFocus = $scope.tempData[0];
+	$scope.tweetData = [];
+	$scope.currentFocus = "";
 
 	$scope.switchFocus = function(newFocus){
 		$scope.currentFocus = newFocus;
@@ -14,19 +14,13 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
            	params: {
                	action: "get"
            	}
+       	}).success(function(tweets){
+			$scope.tweetData = tweets;
+			$scope.currentFocus = $scope.tweetData[0];
+			console.log($scope.tweetData);
        	});
-
-       	return( request.then( handleSuccess, handleError ) );
 	}
 
-	function handleSuccess( response ) {
-        return( response.data );
-    }
+	getResults();
 
-	function handleError( response ) {
-		return [];
-	}
-
-    $scope.data = getResults();
-    console.log($scope.data);
 });
