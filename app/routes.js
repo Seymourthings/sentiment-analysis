@@ -33,45 +33,38 @@ function alchemyRest(){
 function alchemyProcess(statuses){
 	var alchemy = alchemyRest();
 
-	return new Promise(function(resolve, reject) {
-	  // do a thing, possibly async, then…
-		var processed = [];
+	var promises = [];
+	for(i in statuses){
+		var params = {text:statuses[i].text};
+		
+		var temp = new Promise(function(resolve, reject){
+			alchemy.emotions("TEXT", params, function(err, response){
+				// See http://www.alchemyapi.com/api/html-api-1 for format of returned object
+			  	var emotions = response.docEmotions;
 
-	  	for(status in statuses){
-			var params = {text: status.text};
+		
+			  	var augmentStatus = statuses[i];
+			  	augmentStatus['anger'] = emotions.anger;
+			  	resolve(augmentStatus);
+			})
+		});
 
-			alchemy.emotions("TEXT", params, function(err, response) {
-			  if (err) throw err;
+		promises.push(temp);
+	}
 
-			  // See http://www.alchemyapi.com/api/html-api-1 for format of returned object
-			  var emotions = response.docEmotions;
-
-			  // Do something with data
-			  // console.log(emotions);
-			  var augmentStatus = statuses[status];
-			  augmentStatus['anger'] = emotions.anger;
-			  processed.push(augmentStatus);
-
-			  // console.log("current = " + processed.length + " = " + statuses.length);
-
-				if (processed.length === statuses.length) {
-					// console.log("success");
-					resolve(processed);
-				}
-			});
-		}
-	});
+	return Promise.all(promises);
 }
 
 function getTweetsFrom(res, company, countWanted){
 	var params = {
-		q: company,
-		count: countWanted
+		q: company
 	}
 	twitter.get(url, params, function(error, tweets, response){
 		alchemyProcess(tweets.statuses).then(function(data){
 			res.send(data);		
 		});
+		// alchemyProcess(tweets.statuses);
+		// res.send(tweets.statuses);
 	});
 	
 }
@@ -79,7 +72,7 @@ function getTweetsFrom(res, company, countWanted){
 function serve(app, res, req){
 
 	app.get('/twitter', function(req, res) {
-		 getTweetsFrom(res,priceline, 1);
+		 getTweetsFrom(res,priceline, 5);
 	});
 }
 
