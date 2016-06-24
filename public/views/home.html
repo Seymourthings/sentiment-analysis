@@ -1,16 +1,33 @@
-<div class="jumbotron text-center">
-	<h1>Home Page 4 Life</h1>
+<div class="jumbotron" id="plcn-head">
+	<h3 class="company-filter">Filter by company:</h3>
+	<ul class="company-btns">
+		<li>
+			<img src="../images/priceline-inactive.png" />
+		</li>
+		<li>
+			<img src="../images/expedia-inactive.png" />
+		</li>
+		<li>
+			<img src="../images/hipmunk-inactive.png" />
+		</li>
+		<li>
+			<img src="../images/orbitz--inactive.png" />
+		</li>
+	</ul>
 </div>
 
 <div class="jumbotron">
 	<div class="container" ng-repeat="data in tweetData" style="margin-bottom: 20px;" ng-class="{'twitter-card-large': data === currentFocus}">
 		<!-- Small -->
 
-			<div class="twitter-card-small card" ng-click="switchFocus(data)" ng-class="{'twitter-card-side': data === currentFocus}"> 
-				<h2 class="username"> {{data.user.name}}</h2>
-				<h2 class="handle"> @{{data.user.screen_name}} </h2>
+			<div class="twitter-card-small card" ng-click="switchFocus(data)" ng-class="{'twitter-card-side': data === currentFocus}">
+				<img ng-src="{{data.user.profile_image_url}}" class="twitter-img"> </img>
+				<span>
+					<h2 class="username"> {{data.user.name}}</h2>
+					<h2 class="handle"> @{{data.user.screen_name}} </h2>
 
-				<h2 class="twitter-text"> {{data.text}} </h2>
+					<h2 class="twitter-text"> {{data.text}} </h2>
+				</span>
 			</div>
 
 			<!-- <button class="button--secondary twitter-card-small" ng-click="switchFocus(data)" ng-class="{'twitter-card-side': data === currentFocus}">{{data}}</button> -->
