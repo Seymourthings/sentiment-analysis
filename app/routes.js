@@ -38,13 +38,15 @@ function alchemyProcess(statuses){
 			  var emotions = response.docEmotions;
 
 			  // Do something with data
-			  console.log(emotions);
-			  processed.push(status);
+			  // console.log(emotions);
+			  var augmentStatus = statuses[status];
+			  augmentStatus['anger'] = emotions.anger;
+			  processed.push(augmentStatus);
 
-			  console.log("current = " + processed.length + " = " + statuses.length);
+			  // console.log("current = " + processed.length + " = " + statuses.length);
 
 				if (processed.length === statuses.length) {
-					console.log("success");
+					// console.log("success");
 					resolve(processed);
 				}
 			});
@@ -57,7 +59,7 @@ function serve(app, res, req){
 	var url = 'search/tweets';
 	var params = {
 		q: 'priceline',
-		count: 2
+		count: 10
 	}
 	var twitter = twitterRest();
 
@@ -65,7 +67,7 @@ function serve(app, res, req){
 		 
 		twitter.get(url, params, function(error, tweets, response){
 			alchemyProcess(tweets.statuses).then(function(data){
-				console.log('YAAAAY');
+				// console.log('YAAAAY');
 				res.send(data);		
 			});
 		});
