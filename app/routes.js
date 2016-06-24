@@ -93,12 +93,11 @@ function serve(app, res, req){
 	});
 
 	app.get('/twitter', function(req, res) {
-		 getTweetsFrom(res,expedia,1);
 		if(req.query.company){
 			getTweetsFrom(res, req.query.company,15);
 		}
 		else{
-			getTweetsFrom(res, priceline,15);
+			getTweetsFrom(res, expedia,15);
 		}
 		 
 	});
