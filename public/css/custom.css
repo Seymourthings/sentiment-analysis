@@ -1,3 +1,32 @@
+// header
+
+.navbar {
+	width: 1440px !important;
+	height: 50px !important;
+	background-color: #0a84c1 !important;
+	box-shadow: 0 1px 5px 0 rgba(0,0,0,0.2) !important;
+	border: none;
+}
+
+.navbar-inverse {
+	width: 1440px !important;
+	height: 50px !important;
+	background-color: #0a84c1 !important;
+	box-shadow: 0 1px 5px 0 rgba(0,0,0,0.2) !important;
+	color: white !important;
+	border-color: transparent !important;
+}
+
+.navbar-brand {
+	color: white !important;
+}
+
+.navbar-nav>li>a {
+	color: white !important;
+}
+
+
+
 .twitter-card-small{
 	display:block;
 	margin: 0 auto;
