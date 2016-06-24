@@ -1,0 +1,12 @@
+.twitter-card-small{
+	display:block;
+	margin: 0 auto;
+}
+
+.twitter-card-side{
+	float:left;
+}
+
+.twitter-card-large{
+	background-color: white !important;
+}
