@@ -34,21 +34,22 @@ function alchemyProcess(statuses){
 	var alchemy = alchemyRest();
 
 	var promises = [];
+	var augmentStatus;
+	//console.log(statuses);
 	for(i in statuses){
 		var params = {text:statuses[i].text};
 		
 		var temp = new Promise(function(resolve, reject){
-			alchemy.emotions("TEXT", params, function(err, response){
-				// See http://www.alchemyapi.com/api/html-api-1 for format of returned object
+		alchemy.emotions("TEXT", params, function(err, response){
+			// See http://www.alchemyapi.com/api/html-api-1 for format of returned object
 			  	var emotions = response.docEmotions;
-
-		
-			  	var augmentStatus = statuses[i];
+			  	augmentStatus = statuses[i];
 			  	augmentStatus['anger'] = emotions.anger;
+			  	
 			  	resolve(augmentStatus);
-			})
+			});
 		});
-
+		//resolve(augmentStatus);
 		promises.push(temp);
 	}
 
@@ -61,6 +62,7 @@ function getTweetsFrom(res, company, countWanted){
 	}
 	twitter.get(url, params, function(error, tweets, response){
 		alchemyProcess(tweets.statuses).then(function(data){
+			console.log(tweets.statuses);
 			res.send(data);		
 		});
 		// alchemyProcess(tweets.statuses);
@@ -72,7 +74,7 @@ function getTweetsFrom(res, company, countWanted){
 function serve(app, res, req){
 
 	app.get('/twitter', function(req, res) {
-		 getTweetsFrom(res,priceline, 5);
+		 getTweetsFrom(res,priceline,1);
 	});
 }
 
