@@ -7,10 +7,13 @@
 		<!-- Small -->
 
 			<div class="twitter-card-small card" ng-click="switchFocus(data)" ng-class="{'twitter-card-side': data === currentFocus}"> 
-				<h2 class="username"> {{data.user.name}}</h2>
-				<h2 class="handle"> @{{data.user.screen_name}} </h2>
+				<img ng-src="{{data.user.profile_image_url}}" class="twitter-img"> </img>
+				<span>
+					<h2 class="username"> {{data.user.name}}</h2>
+					<h2 class="handle"> @{{data.user.screen_name}} </h2>
 
-				<h2 class="twitter-text"> {{data.text}} </h2>
+					<h2 class="twitter-text"> {{data.text}} </h2>
+				</span>
 			</div>
 
 			<!-- <button class="button--secondary twitter-card-small" ng-click="switchFocus(data)" ng-class="{'twitter-card-side': data === currentFocus}">{{data}}</button> -->
