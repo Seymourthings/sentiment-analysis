@@ -27,7 +27,7 @@ function twitterRest(){
 
 function alchemyRest(){
 	var AlchemyAPI = require('alchemy-api');
-	return alchemy = new AlchemyAPI('e1fd7bc4f36090d76a3efb0b0328081e29ab1ec7');
+	return alchemy = new AlchemyAPI('0880ad494b53c08f143d791eed5ce64d8354fe2f');
 }
 
 function alchemyProcess(statuses){
@@ -38,10 +38,15 @@ function alchemyProcess(statuses){
 	//console.log(statuses);
 	for(i in statuses){
 		var params = {text:statuses[i].text};
-		
+
 		var temp = new Promise(function(resolve, reject){
-		alchemy.emotions("TEXT", params, function(err, response){
 			// See http://www.alchemyapi.com/api/html-api-1 for format of returned object
+			alchemy.emotions("TEXT", params, function(err, response){
+				if(err){
+					console.log('fail');
+					reject();
+				}
+				// See http://www.alchemyapi.com/api/html-api-1 for format of returned object
 			  	var emotions = response.docEmotions;
 			  	augmentStatus = statuses[i];
 			  	augmentStatus['anger'] = emotions.anger;
@@ -49,11 +54,22 @@ function alchemyProcess(statuses){
 			  	resolve(augmentStatus);
 			});
 		});
+	}
 		//resolve(augmentStatus);
 		promises.push(temp);
-	}
 
 	return Promise.all(promises);
+}
+
+function getScore(searchText, res){
+	var alchemy = alchemyRest();
+
+	var params = {text: searchText};
+
+	alchemy.emotions("TEXT", params, function(err, response){
+		var emotions = response.docEmotions;
+		res.send(emotions.anger);
+	});
 }
 
 function getTweetsFrom(res, company, countWanted){
@@ -66,12 +82,16 @@ function getTweetsFrom(res, company, countWanted){
 			res.send(data);		
 		});
 		// alchemyProcess(tweets.statuses);
-		// res.send(tweets.statuses);
+		res.send(tweets.statuses);
 	});
-	
 }
 
 function serve(app, res, req){
+
+	app.get('/alchemy', function(req, res){
+		console.log(req);
+		getScore(req.query.text, res);
+	});
 
 	app.get('/twitter', function(req, res) {
 		 getTweetsFrom(res,priceline,1);
