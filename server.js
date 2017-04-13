@@ -27,7 +27,27 @@ app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 // routes ==================================================
 require('./app/routes')(app); // pass our application into our routes
 
-// start app ===============================================
+//twitterData will be an array of objects
+var twitterData = [{},{},{}];
+
+app.get('/test-api', function(req,res) {
+
+  //twitterData.length or set a maximum number
+  for(var i = 0; i < twitterData.length; i++){
+    var params = {
+    	text: twitterData[i].XXXXXX
+    };
+
+    alchemy_language.sentiment(params, function (err, response) {
+      if (err)
+        res.render('error');
+      else
+        res.send(response);
+    });
+  }
+
+});
+
 app.listen(port);
 console.log('Magic happens on port ' + port); 			// shoutout to the user
 exports = module.exports = app; 						// expose app

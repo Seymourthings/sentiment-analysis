@@ -11,9 +11,8 @@ var orbitz = '@orbitz';
 var hipmunk = '@thehipmunk';
 var tripAdvisor = '@TripAdvisor';
 
-var url = 'search/tweets';
-
 var twitter = twitterRest();
+var url = 'search/tweets';
 
 function twitterRest(){
 	var twitter = require('twitter');
@@ -28,68 +27,74 @@ function twitterRest(){
 
 function alchemyRest(){
 	var AlchemyAPI = require('alchemy-api');
-	return alchemy = new AlchemyAPI('e1fd7bc4f36090d76a3efb0b0328081e29ab1ec7');
+	return alchemy = new AlchemyAPI('0880ad494b53c08f143d791eed5ce64d8354fe2f');
 }
 
-function alchemyProcess(tweetObject){
+function alchemyProcess(statuses){
+	var alchemy = alchemyRest();
+	var promises = [];
+	var augmentStatus;
+	//console.log(statuses);
+	for(i in statuses){
+		var params = {text:statuses[i].text};
+
+		var temp = new Promise(function(resolve, reject){
+			// See http://www.alchemyapi.com/api/html-api-1 for format of returned object
+			alchemy.emotions("TEXT", params, function(err, response){
+				if(err){
+					console.log('fail');
+					reject();
+				}
+				// See http://www.alchemyapi.com/api/html-api-1 for format of returned object
+			  	var emotions = response.docEmotions;
+			  	augmentStatus = statuses[i];
+			  	augmentStatus['anger'] = emotions.anger;
+			  	
+			  	resolve(augmentStatus);
+			});
+		});
+	}
+		//resolve(augmentStatus);
+		promises.push(temp);
+
+	return Promise.all(promises);
+}
+
+function getScore(searchText, res){
 	var alchemy = alchemyRest();
 
-	return new Promise(function(resolve, reject) {
-	  // do a thing, possibly async, then…
-		var processed = [];
+	var params = {text: searchText};
 
-		for(status in tweetObject){
-			var params = {text: status.text};
-			alchemy.emotions("TEXT", params, function(err, response) {
-			  if (err) throw err;
-
-			  // See http://www.alchemyapi.com/api/html-api-1 for format of returned object
-			  var emotions = response.docEmotions;
-
-			  // Do something with data
-			  // console.log(emotions);
-				var augmentStatus = tweetObject[status];
-				augmentStatus['anger'] = emotions.anger;
-				processed.push(augmentStatus);	
-			  // console.log("current = " + processed.length + " = " + statuses.length);
-
-				if (processed.length === tweetObject.length) {
-					console.log(tweetObject);
-					resolve(processed);
-				}
-			});
-
-		}
-
+	alchemy.emotions("TEXT", params, function(err, response){
+		var emotions = response.docEmotions;
+		res.send(emotions.anger);
 	});
 }
 
-function getTweetsFrom(company, countWanted){
+function getTweetsFrom(res, company, countWanted){
 	var params = {
-		q: company,
-		count: countWanted
+		q: company
 	}
-	var tweetObject;
 	twitter.get(url, params, function(error, tweets, response){
-		toAlchemy(tweets.statuses);
-	});
-	
-}
-
-function toAlchemy(tweetObject){
-	alchemyProcess(tweetObject).then(function(data){
-		res.send(data);		
+		alchemyProcess(tweets.statuses).then(function(data){
+			console.log(tweets.statuses);
+			res.send(data);		
+		});
+		// alchemyProcess(tweets.statuses);
+		res.send(tweets.statuses);
 	});
 }
 
-function serveTweets(app,url){
-	app.get('*', function(req, res){
-		getTweetsFrom(priceline, 1);
-		getTweetsFrom(expedia, 1);
-		getTweetsFrom(hipmunk, 1);
-		getTweetsFrom(tripAdvisor, 1);
-		res.sendfile('./public/index.html');
+function serve(app, res, req){
+
+	app.get('/alchemy', function(req, res){
+		console.log(req);
+		getScore(req.query.text, res);
+	});
+
+	app.get('/twitter', function(req, res) {
+		 getTweetsFrom(res,priceline,1);
 	});
 }
 
-module.exports = serveTweets;
+module.exports = serve;

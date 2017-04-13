@@ -1,27 +1,46 @@
-<div class="jumbotron text-center">
-	<h1>Home Page 4 Life</h1>
+<div class="jumbotron" id="plcn-head">
+	<div class="company-filter">Filter by company:</div>
+	<ul class="company-btns">
+		<li>
+			<div ng-click="toggleImage()" ng-class="{'activePcln-btn': active == true}" class="pcln-btn"></div>
+		</li>
+		<li>
+			<div ng-click="toggleExpImage()" ng-class="{'activeExpedia-btn': expActive == true}" class="expedia-btn"></div>
+		</li>
+		<li>
+			<div ng-click="toggleHipImage()" ng-class="{'activeHipmunk-btn': hipActive == true}" class="hipmunk-btn"></div>
+		</li>
+		<li>
+			<div ng-click="toggleOrbImage()" ng-class="{'activeOrbitz-btn': orbActive == true}" class="orbitz-btn"></div>
+		</li>
+	</ul>
 </div>
 
 <div class="jumbotron">
 	<div class="container" ng-repeat="data in tweetData" style="margin-bottom: 20px;" ng-class="{'twitter-card-large': data === currentFocus}">
 		<!-- Small -->
 
-			<div class="twitter-card-small card" ng-click="switchFocus(data)" ng-class="{'twitter-card-side': data === currentFocus}"> 
-				<h2 class="username"> {{data.user.name}}</h2>
-				<h2 class="handle"> @{{data.user.screen_name}} </h2>
+			<div class="twitter-card-small card" ng-click="switchFocus(data)" ng-class="{'twitter-card-side': data === currentFocus}">
+				<img ng-src="{{data.user.profile_image_url}}" class="twitter-img"> </img>
+				<span>
+					<h2 class="username"> {{data.user.name}}</h2>
+					<h2 class="handle"> @{{data.user.screen_name}} </h2>
 
-				<h2 class="twitter-text"> {{data.text}} </h2>
+					<h2 class="twitter-text"> {{data.text}} </h2>
+				</span>
 			</div>
 
 			<!-- <button class="button--secondary twitter-card-small" ng-click="switchFocus(data)" ng-class="{'twitter-card-side': data === currentFocus}">{{data}}</button> -->
 
 			<!-- Large -->
-			<div ng-show="data === currentFocus" style="float:left">
+			<div ng-show="data === currentFocus" style="float:left; width:40%">
 			  <div class="panel-heading">
-			    <h3 class="panel-title">Panel title</h3>
+			    <h2 class="panel-title"> How Can We Help? </h2>
+			    <h3> {{data.anger}}</h3>
 			  </div>
 			  <div class="panel-body">
-			    Panel content
+			  	<textarea rows="4" cols="50"> Type your thoughtful response here!</textarea>
+			    <button class="button--secondary" style="margin-top:15px"> Generate Happiness! </button>
 			  </div>
 			</div>
 	</div>
