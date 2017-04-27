@@ -65,21 +65,21 @@ function getScore(searchText, res){
 
 	var params = {text: searchText};
 
-	alchemy.emotions("TEXT", params, function(err, response){
-		var emotions = response.docEmotions;
-		res.send(emotions.anger);
+	alchemy.sentiment("TEXT", params, function(err, response){
+		var emotions = response.docSentiment;
+		res.send(emotions.score);
 	});
 }
 
 function getTweetsFrom(res, company, countWanted){
 	var params = {
-		q: company
+		q: company,
+		count: countWanted
 	}
 	twitter.get(url, params, function(error, tweets, response){
-		alchemyProcess(tweets.statuses).then(function(data){
-			console.log(tweets.statuses);
-			res.send(data);		
-		});
+		// alchemyProcess(tweets.statuses).then(function(data){
+		// 	res.send(data);		
+		// });
 		// alchemyProcess(tweets.statuses);
 		res.send(tweets.statuses);
 	});
@@ -88,12 +88,17 @@ function getTweetsFrom(res, company, countWanted){
 function serve(app, res, req){
 
 	app.get('/alchemy', function(req, res){
-		console.log(req);
 		getScore(req.query.text, res);
 	});
 
 	app.get('/twitter', function(req, res) {
-		 getTweetsFrom(res,priceline,1);
+		if(req.query.company){
+			getTweetsFrom(res, req.query.company,15);
+		}
+		else{
+			getTweetsFrom(res, expedia,15);
+		}
+		 
 	});
 }
 

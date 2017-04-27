@@ -8,6 +8,8 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
 		$scope.expActive = false;
 		$scope.hipActive = false;
 		$scope.orbActive = false;
+
+		getResults2('Priceline');
 	}
 
 	$scope.toggleExpImage = function(){
@@ -15,6 +17,8 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
 		$scope.active = false;
 		$scope.hipActive = false;
 		$scope.orbActive = false;
+
+		getResults2('Expedia');
 	}
 
 	$scope.toggleHipImage = function(){
@@ -22,6 +26,8 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
 		$scope.expActive = false;
 		$scope.active = false;
 		$scope.orbActive = false;
+
+		getResults2('Hipmunk');
 	}
 
 	$scope.toggleOrbImage = function(){
@@ -29,10 +35,33 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
 		$scope.expActive = false;
 		$scope.active = false;
 		$scope.hipActive = false;
+
+		getResults2('Orbitz');
 	}
 
 	$scope.switchFocus = function(newFocus){
 		$scope.currentFocus = newFocus;
+	}
+
+	function getResults2(company2){
+		$http({
+           	method: "get",
+           	url: "./twitter",
+           	params: {
+               	action: "get",
+               	company: company2
+           	}
+       	}).success(function(tweets){
+			$scope.tweetData = tweets;
+
+			$scope.currentFocus = $scope.tweetData[0];
+			console.log($scope.tweetData);
+
+				// for(i in $scope.tweetData){
+				// 	console.log('derp');
+				// 	$scope.tweetData[i]['anger'] = getScore($scope.tweetData[i]);
+				// }
+       	});
 	}
 
 	function getResults(){
@@ -48,10 +77,10 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
 			$scope.currentFocus = $scope.tweetData[0];
 			console.log($scope.tweetData);
 
-				for(i in $scope.tweetData){
-					console.log('derp');
-					$scope.tweetData[i]['anger'] = getScore($scope.tweetData[i]);
-				}
+				// for(i in $scope.tweetData){
+				// 	console.log('derp');
+				// 	$scope.tweetData[i]['anger'] = getScore($scope.tweetData[i]);
+				// }
        	});
 	}
 
